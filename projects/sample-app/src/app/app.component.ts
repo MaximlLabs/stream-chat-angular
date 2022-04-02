@@ -19,13 +19,30 @@ export class AppComponent {
   ) {
     void this.chatService.init(
       environment.apiKey,
-      environment.userId,
+      { id: environment.userId, name: 'User Name' },
       environment.userToken
     );
-    void this.channelService.init({
-      type: 'messaging',
-      members: { $in: [environment.userId] },
-    });
+
     this.streamI18nService.setTranslation();
+  }
+
+  async ngOnInit() {
+    const channel = this.chatService.chatClient.channel(
+      'messaging',
+      'talking-about-angular',
+      {
+        // add as many custom fields as you'd like
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png',
+        name: 'Talking about Angular',
+      }
+    );
+    await channel.create();
+    this.channelService.init({
+      type: 'messaging',
+      id: { $eq: 'talking-about-angular' },
+    });
+
+    // this.channelService.setAsActiveChannel(channel);
   }
 }
