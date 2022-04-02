@@ -15,9 +15,20 @@ body {
   max-width: 100%;
 }
 
+.str-chat.commerce,
+.str-chat.messaging {
+  background-color: white;
+}
+
 @media only screen and (min-device-width: 768px) {
   .str-chat__thread {
     min-width: 35%;
     max-width: 35%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .messaging.str-chat .str-chat__list .str-chat__reverse-infinite-scroll {
+    padding-top: 0px;
   }
 }
