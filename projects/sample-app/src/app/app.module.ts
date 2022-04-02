@@ -8,11 +8,11 @@ import {
   StreamChatModule,
   StreamAutocompleteTextareaModule,
 } from 'stream-chat-angular';
-import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
+// import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
-  declarations: [AppComponent, CustomMessageComponent, EmojiPickerComponent],
+  declarations: [AppComponent, CustomMessageComponent], //, EmojiPickerComponent],
   imports: [
     BrowserModule,
     TranslateModule.forRoot(),
