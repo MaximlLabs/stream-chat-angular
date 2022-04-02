@@ -34,15 +34,15 @@ export class AppComponent {
     this.userName = params.username;
     this.channelId = params.channelid;
 
-    console.log(
-      'Params',
-      this.apiKey,
-      this.userId,
-      this.userName,
-      this.channelId
-    );
+    // console.log(
+    //   'Params',
+    //   this.apiKey,
+    //   this.userId,
+    //   this.userName,
+    //   this.channelId
+    // );
 
-    console.log(this.chatService.chatClient);
+    // console.log(this.chatService.chatClient);
 
     const devTokenProvider: TokenProvider = () =>
       new Promise((resolve, reject) => {
