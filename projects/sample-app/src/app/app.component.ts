@@ -5,6 +5,7 @@ import {
   StreamI18nService,
 } from 'stream-chat-angular';
 import { environment } from '../environments/environment';
+import { TokenProvider } from 'stream-chat';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +13,48 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  apiKey: string;
+  userId: string;
+  userName: string;
+  channelId: string;
+
+  channelType: string = 'job';
+
   constructor(
     private chatService: ChatClientService,
     private channelService: ChannelService,
     private streamI18nService: StreamI18nService
   ) {
+    const params: any = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(<string>prop),
+    });
+
+    this.apiKey = params.apikey;
+    this.userId = params.userid;
+    this.userName = params.username;
+    this.channelId = params.channelid;
+
+    console.log(
+      'Params',
+      this.apiKey,
+      this.userId,
+      this.userName,
+      this.channelId
+    );
+
+    console.log(this.chatService.chatClient);
+
+    const devTokenProvider: TokenProvider = () =>
+      new Promise((resolve, reject) => {
+        let devToken = this.chatService.chatClient.devToken(this.userId);
+        //console.log("DevToken", this.userId, devToken)
+        resolve(devToken);
+      });
+
     void this.chatService.init(
-      environment.apiKey,
-      { id: environment.userId, name: 'User Name' },
-      environment.userToken
+      this.apiKey,
+      { id: this.userId, name: this.userName },
+      devTokenProvider
     );
 
     this.streamI18nService.setTranslation();
@@ -28,19 +62,13 @@ export class AppComponent {
 
   async ngOnInit() {
     const channel = this.chatService.chatClient.channel(
-      'messaging',
-      'talking-about-angular',
-      {
-        // add as many custom fields as you'd like
-        image:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png',
-        name: 'Talking about Angular',
-      }
+      this.channelType,
+      this.channelId
     );
     await channel.create();
     this.channelService.init({
-      type: 'messaging',
-      id: { $eq: 'talking-about-angular' },
+      type: this.channelType,
+      id: { $eq: this.channelId },
     });
 
     // this.channelService.setAsActiveChannel(channel);
