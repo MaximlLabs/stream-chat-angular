@@ -24,6 +24,7 @@
     "config:prod": "ANGULAR_ENV=production ts-node set-env.ts",
     "start-docs": "npm run generate-docs && npx stream-chat-docusaurus -s",
     "build:sample-app": "ng build --stats-json --project sample-app",
+    "build:dist": "npm run build:prod && npm run build:sample-app",
     "preanalyze:sample-app": "npm run build:sample-app",
     "analyze:sample-app": "webpack-bundle-analyzer dist/sample-app/stats.json",
     "generate-docs": "npm run typedoc:services && npm run typedoc:components && npm run copy-docs",
