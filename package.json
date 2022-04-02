@@ -6,7 +6,7 @@
     "postinstall": "npm run config:dev",
     "ng": "ng",
     "prestart": "npm run config:dev && ng build",
-    "start": "ng serve",
+    "start": "ng serve --disable-host-check",
     "prestart:dev": "npm run config:dev",
     "start:dev": "rm -rf dist & npm run watch & (wait-on dist && ng serve)",
     "build": "ng build",
